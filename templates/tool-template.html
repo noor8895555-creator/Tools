@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{name}}</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <main class="container" style="padding: 20px 0;">
+    <h1>{{name}}</h1>
+    <p>{{description}}</p>
+
+    <div class="tool-area">
+      <input type="file" id="image-input" accept="image/*" />
+      <div style="margin:10px 0;">
+        <canvas id="canvas" style="max-width:100%; border:1px solid #ddd;"></canvas>
+      </div>
+      <button id="convert-btn" disabled>Convert to PNG</button>
+      <a id="download-link" href="#" download="image.png" style="display:none; margin-left:8px;">Download PNG</a>
+    </div>
+  </main>
+  <div id="footer-placeholder"></div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // This is the script for image-to-png.
+    // All generated tools will have this script.
+    const input = document.getElementById('image-input');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const convertBtn = document.getElementById('convert-btn');
+    const downloadLink = document.getElementById('download-link');
+    let img = new Image();
+
+    input.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      img.onload = function() {
+        const maxW = 1024;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxW) { const ratio = maxW / w; w = maxW; h = h * ratio; }
+        canvas.width = w; canvas.height = h;
+        ctx.clearRect(0,0,w,h);
+        ctx.drawImage(img, 0, 0, w, h);
+        convertBtn.disabled = false;
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+    });
+
+    convertBtn.addEventListener('click', function() {
+      const dataURL = canvas.toDataURL('image/png');
+      downloadLink.href = dataURL;
+      downloadLink.style.display = 'inline';
+      downloadLink.click();
+    });
+  </script>
+</body>
+</html>

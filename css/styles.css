@@ -1,0 +1,53 @@
+:root {
+  --bg: #f5f7fb;
+  --card: #fff;
+  --text: #111;
+  --muted: #555;
+  --accent: #4a90e2;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+.site-header, .site-footer { background: #fff; border-bottom: 1px solid #e5e5e5; }
+.site-header { position: sticky; top: 0; z-index: 1000; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 12px; }
+.logo { font-weight: 700; font-size: 1.2rem; text-decoration: none; color: #111; }
+.nav { display: flex; gap: 12px; }
+.nav a { text-decoration: none; color: #333; font-size: 0.95rem; }
+.header-search input { padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; min-width: 180px; }
+
+.ad-block { margin: 20px 0; text-align: center; }
+.ad-placeholder { background: #f0f0f0; border: 1px dashed #ccc; padding: 20px; color: #888; }
+
+.search-area { display: flex; justify-content: center; padding: 16px 0; }
+#search-input { width: 100%; max-width: 600px; padding: 12px 14px; border: 1px solid #ddd; border-radius: 6px; background: #fff; }
+
+.tool-category { margin: 28px 0; }
+.tool-category h2 { font-size: 1.1rem; margin: 0 0 12px; color: #333; }
+
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+
+.tool-card {
+  display: flex; align-items: center; text-decoration: none;
+  background: #fff; border: 1px solid #eee; border-radius: 8px;
+  padding: 12px;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s;
+}
+.tool-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,.06); }
+.card-icon { font-size: 28px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 6px; background: #f7f7f7; margin-right: 12px; }
+.card-content { display: block; }
+.card-title { font-weight: 600; margin-bottom: 4px; }
+.card-desc { font-size: 12px; color: var(--muted); }
+
+.site-footer { padding: 20px 0; text-align: center; border-top: 1px solid #e5e5e5; margin-top: 40px; }
+
+@media (max-width: 700px) {
+  .header-inner { flex-direction: column; align-items: stretch; }
+  .nav { justify-content: center; flex-wrap: wrap; }
+  .header-search { width: 100%; text-align: left; padding: 0 0 8px; }
+  #search-input { width: 100%; }
+}
