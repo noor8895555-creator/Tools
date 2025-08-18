@@ -39,13 +39,13 @@ body {
     font-size: 16px;
 }
 
-#send-btn {
+#send-btn, #mic-btn {
     border: none;
     background-color: #007bff;
     color: #fff;
     padding: 10px 15px;
     border-radius: 5px;
-    margin-left: 10px;
+    margin-left: 5px;
     cursor: pointer;
 }
 

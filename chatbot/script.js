@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const ttsBtn = document.getElementById('tts-btn');
     const emailBtn = document.getElementById('email-btn');
     const saveBtn = document.getElementById('save-btn');
+    const micBtn = document.getElementById('mic-btn');
+
+    if (!('speechSynthesis' in window)) {
+        ttsBtn.style.display = 'none';
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        micBtn.style.display = 'none';
+    }
 
     let selectedLanguage = 'en';
     let ttsEnabled = false;
@@ -39,6 +49,36 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chatHistory) {
             downloadChatHistory(chatHistory);
         }
+    });
+
+    micBtn.addEventListener('click', () => {
+        const recognition = new SpeechRecognition();
+        recognition.lang = selectedLanguage;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.start();
+
+        micBtn.textContent = '...';
+        micBtn.disabled = true;
+
+        recognition.onresult = (event) => {
+            const speechResult = event.results[0][0].transcript;
+            userInput.value = speechResult;
+        };
+
+        recognition.onspeechend = () => {
+            recognition.stop();
+            micBtn.textContent = '🎤';
+            micBtn.disabled = false;
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            alert(`Speech recognition error: ${event.error}`);
+            micBtn.textContent = '🎤';
+            micBtn.disabled = false;
+        };
     });
 
     sendBtn.addEventListener('click', sendMessage);
@@ -163,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error("Translation failed:", error);
+            alert("Translation failed. Please try again later.");
             return text; // return original text as fallback
         }
     }
